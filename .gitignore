@@ -31,6 +31,7 @@ target*
 .classpath
 
 # upload storage files
+upload-dir
 .attach*
 
 .factorypath
