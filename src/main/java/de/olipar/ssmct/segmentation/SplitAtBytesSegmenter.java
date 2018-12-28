@@ -18,19 +18,27 @@ public class SplitAtBytesSegmenter implements Segmenter<Byte> {
 	@Override
 	public Comparable<Byte>[][] getSegments(byte[] input) {
 		List<Byte> temp = new ArrayList<Byte>();
-		List<Byte[]> ret = new ArrayList<Byte[]>();
+		List<Byte[]> uncleanedRet = new ArrayList<Byte[]>();
+		
 		for (byte i : input) {
 			if (contains(i, splitBytes)) {
 				if (includeSplitBytes)
 					temp.add(Byte.valueOf(i));
-				ret.add(temp.toArray(new Byte[temp.size()]));
+				uncleanedRet.add(temp.toArray(new Byte[temp.size()]));
 				temp.clear();
 				continue;
 			}
 			temp.add(Byte.valueOf(i));
 		}
 		if (temp.size() != 0)
-			ret.add(temp.toArray(new Byte[temp.size()]));
+			uncleanedRet.add(temp.toArray(new Byte[temp.size()]));
+		
+		//remove empty arrays
+		List<Byte[]> ret = new ArrayList<Byte[]>();
+		for(Byte[] i:uncleanedRet) {
+			if(i.length>0)
+				ret.add(i);
+		}
 
 		return ret.toArray(new Byte[ret.size()][]);
 	}
