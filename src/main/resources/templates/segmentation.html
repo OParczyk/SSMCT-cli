@@ -15,11 +15,12 @@
 
 	<div>
 
-		<form th:each="class : ${segmenters.keySet()}" method="post" action="/compare">
+		<form th:each="class : ${segmenters.keySet()}" method="post" action="/segment">
 			<div th:each="constructors : ${segmenters.get(class)}">
 				<div th:each="constructor : ${constructors}">
 					<span th:text="${constructor.getName()}"></span>
 					<input type="hidden" name="segmenter" th:value="${constructor.getName()}">
+					<input type="hidden" name="filename" th:value="${file}">
 					<div th:each="parameter : ${constructor.getParameters()}">
 						<label th:text="${parameter.getAnnotation(paramClass).name()}"></label>
 						<div th:if="${parameter.getAnnotation(paramClass).displayType()==NUMBER}">
@@ -36,6 +37,7 @@
 								th:pattern="${parameter.getAnnotation(paramClass).regex()}">
 						</div>
 						<div th:if="${parameter.getAnnotation(paramClass).displayType()==BOOL}">
+							<input type="hidden" th:name="${parameter.name}" value="off">
 							<input type="checkbox" th:name="${parameter.name}">
 						</div>
 						
