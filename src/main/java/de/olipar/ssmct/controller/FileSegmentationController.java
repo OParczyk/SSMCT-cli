@@ -144,6 +144,6 @@ public class FileSegmentationController {
 		}
 
 		request.getSession().setAttribute("segments", segments);
-		return new RedirectView("compare", false);
+		return new RedirectView("comparison", false);
 	}
 }
