@@ -22,12 +22,12 @@
 					<input type="hidden" name="segmenter" th:value="${constructor.getName()}">
 					<div th:each="parameter : ${constructor.getParameters()}">
 						<label th:text="${parameter.getAnnotation(paramClass).name()}"></label>
-						<div th:if="${parameter.getAnnotation(paramClass).type()==NUMBER}">
+						<div th:if="${parameter.getAnnotation(paramClass).displayType()==NUMBER}">
 							<input type="number" th:name="${parameter.name}"
 								th:min="${parameter.getAnnotation(paramClass).min()}"
 								th:max="${parameter.getAnnotation(paramClass).max()}">
 						</div>
-						<div th:if="${parameter.getAnnotation(paramClass).type()==STRING}">
+						<div th:if="${parameter.getAnnotation(paramClass).displayType()==STRING}">
 							<input
 								th:if="${parameter.getAnnotation(paramClass).regex().isEmpty()}"
 								type="text" th:name="${parameter.name}"> <input
@@ -35,7 +35,7 @@
 								type="text" th:name="${parameter.name}"
 								th:pattern="${parameter.getAnnotation(paramClass).regex()}">
 						</div>
-						<div th:if="${parameter.getAnnotation(paramClass).type()==BOOL}">
+						<div th:if="${parameter.getAnnotation(paramClass).displayType()==BOOL}">
 							<input type="checkbox" th:name="${parameter.name}">
 						</div>
 						
