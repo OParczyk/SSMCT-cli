@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import de.olipar.ssmct.segmentation.ByteSegmenter;
 import de.olipar.ssmct.segmentation.Param;
-import de.olipar.ssmct.segmentation.ParameterType;
+import de.olipar.ssmct.segmentation.ParameterDisplayType;
 import de.olipar.ssmct.segmentation.Segmenter;
 import de.olipar.ssmct.storage.StorageService;
 
@@ -38,18 +38,9 @@ public class FileSegmentationController {
 	@PostMapping("/segmentation")
 	public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
 		storageService.store(file);
-		byte[] bytes = null;
+
 		Map<Class<? extends Segmenter>, Constructor[]> segmenters = new HashMap<Class<? extends Segmenter>, Constructor[]>();
 		Map<Parameter, Annotation[]> annotations = new HashMap<Parameter, Annotation[]>();
-
-		model.addAttribute("message", "You successfully uploaded " + file.getOriginalFilename() + "!");
-		try {
-			bytes = file.getBytes();
-		} catch (IOException e1) {
-			model.addAttribute("message", "getBytes failed on file " + file.getOriginalFilename() + "!");
-			e1.printStackTrace();
-			return "redirect:/";
-		}
 
 		for (Class<? extends Segmenter> i : segmenterClasses) {
 			segmenters.put(i, i.getConstructors());
@@ -58,9 +49,9 @@ public class FileSegmentationController {
 
 		model.addAttribute("segmenters", segmenters);
 		model.addAttribute("paramClass", Param.class);
-		model.addAttribute("NUMBER", ParameterType.NUMBER);
-		model.addAttribute("STRING", ParameterType.STRING);
-		model.addAttribute("BOOL",ParameterType.BOOL);
+		model.addAttribute("NUMBER", ParameterDisplayType.NUMBER);
+		model.addAttribute("STRING", ParameterDisplayType.STRING);
+		model.addAttribute("BOOL",ParameterDisplayType.BOOL);
 		//TODO: ENUM support
 
 		return "segmentation";

@@ -8,8 +8,8 @@ public class SplitAtBytesSegmenter implements Segmenter<Byte> {
 	private final byte[] splitBytes;
 	private final boolean includeSplitBytes;
 
-	public SplitAtBytesSegmenter(@Param(name = "Characters to split at", type = ParameterType.STRING) String splitBytes,
-			@Param(name = "Include bytes to split at", type = ParameterType.BOOL)boolean includeSplitBytes) {
+	public SplitAtBytesSegmenter(@Param(name = "Characters to split at", type = ParameterDisplayType.STRING) String splitBytes,
+			@Param(name = "Include bytes to split at", type = ParameterDisplayType.BOOL)boolean includeSplitBytes) {
 		this.splitBytes = splitBytes.getBytes();
 		this.includeSplitBytes = includeSplitBytes;
 	}

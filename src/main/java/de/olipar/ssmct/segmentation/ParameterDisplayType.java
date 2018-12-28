@@ -1,5 +1,5 @@
 package de.olipar.ssmct.segmentation;
 
-public enum ParameterType {
+public enum ParameterDisplayType {
 	NUMBER, STRING, BOOL, ENUM;
 }
