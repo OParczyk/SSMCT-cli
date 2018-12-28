@@ -8,7 +8,7 @@ public class ByteSegmenter implements Segmenter<Byte> {
 	private final int segmentSize;
 
 	public ByteSegmenter(
-			@Param(type = ParameterDisplayType.NUMBER, min = 1, max = Integer.MAX_VALUE, name = "segment size") int segmentSize) {
+			@Param(displayType = ParameterDisplayType.NUMBER, type = ParameterType.INT, min = 1, max = Integer.MAX_VALUE, name = "segment size") int segmentSize) {
 		if (segmentSize < 1)
 			throw new IllegalArgumentException("segment size must be at least 1");
 		this.segmentSize = segmentSize;

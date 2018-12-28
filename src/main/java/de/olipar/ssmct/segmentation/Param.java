@@ -5,7 +5,9 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention (RetentionPolicy.RUNTIME)
 public @interface Param {
-	ParameterDisplayType type();
+	ParameterType type();
+	
+	ParameterDisplayType displayType();
 	
 	String name();
 
