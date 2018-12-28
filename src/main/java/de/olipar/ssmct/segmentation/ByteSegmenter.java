@@ -7,7 +7,8 @@ public class ByteSegmenter implements Segmenter<Byte> {
 
 	private final int segmentSize;
 
-	public ByteSegmenter(int segmentSize) {
+	public ByteSegmenter(
+			@Param(type = ParameterType.NUMBER, min = 1, max = Integer.MAX_VALUE, name = "segment size") int segmentSize) {
 		if (segmentSize < 1)
 			throw new IllegalArgumentException("segment size must be at least 1");
 		this.segmentSize = segmentSize;
@@ -24,6 +25,9 @@ public class ByteSegmenter implements Segmenter<Byte> {
 				temp.clear();
 			}
 		}
+		if (temp.size() != 0)
+			ret.add(temp.toArray(new Byte[temp.size()]));
+
 		return ret.toArray(new Byte[ret.size()][segmentSize]);
 	}
 

@@ -14,9 +14,39 @@
 	<div></div>
 
 	<div>
-		<ul>
-			<li th:each="bytes : ${segments}"><div th:each="byte : ${bytes}"><span th:text="${byte}"></span></div></li>
-		</ul>
+
+		<form th:each="class : ${segmenters.keySet()}" method="post" action="/compare">
+			<div th:each="constructors : ${segmenters.get(class)}">
+				<div th:each="constructor : ${constructors}">
+					<span th:text="${constructor.getName()}"></span>
+					<input type="hidden" name="segmenter" th:value="${constructor.getName()}">
+					<div th:each="parameter : ${constructor.getParameters()}">
+						<label th:text="${parameter.getAnnotation(paramClass).name()}"></label>
+						<div th:if="${parameter.getAnnotation(paramClass).type()==NUMBER}">
+							<input type="number" th:name="${parameter.name}"
+								th:min="${parameter.getAnnotation(paramClass).min()}"
+								th:max="${parameter.getAnnotation(paramClass).max()}">
+						</div>
+						<div th:if="${parameter.getAnnotation(paramClass).type()==STRING}">
+							<input
+								th:if="${parameter.getAnnotation(paramClass).regex().isEmpty()}"
+								type="text" th:name="${parameter.name}"> <input
+								th:if="${!parameter.getAnnotation(paramClass).regex().isEmpty()}"
+								type="text" th:name="${parameter.name}"
+								th:pattern="${parameter.getAnnotation(paramClass).regex()}">
+						</div>
+						<div th:if="${parameter.getAnnotation(paramClass).type()==BOOL}">
+							<input type="checkbox" th:name="${parameter.name}">
+						</div>
+						
+						<br>
+
+					</div>
+				</div>
+			</div>
+			<input type="submit" value="Submit">
+		</form>
+
 	</div>
 </body>
 </html>
