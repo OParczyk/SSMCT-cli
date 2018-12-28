@@ -1,4 +1,4 @@
-package de.olipar.ssmct.segmentation;
+package de.olipar.ssmct.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

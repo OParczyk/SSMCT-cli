@@ -1,4 +1,4 @@
-package de.olipar.ssmct.segmentation;
+package de.olipar.ssmct.annotation;
 
 public enum ParameterDisplayType {
 	NUMBER, STRING, BOOL, ENUM;

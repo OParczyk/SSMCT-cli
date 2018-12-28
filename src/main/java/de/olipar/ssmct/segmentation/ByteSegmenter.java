@@ -3,6 +3,10 @@ package de.olipar.ssmct.segmentation;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.olipar.ssmct.annotation.Param;
+import de.olipar.ssmct.annotation.ParameterDisplayType;
+import de.olipar.ssmct.annotation.ParameterType;
+
 public class ByteSegmenter implements Segmenter<Byte> {
 
 	private final int segmentSize;
