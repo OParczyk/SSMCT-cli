@@ -9,9 +9,13 @@ public class ExactlyTheSameComparator implements Comparator<Comparable<?>[]> {
 
 	@Override
 	public int compare(Comparable<?>[] o1, Comparable<?>[] o2) {
-		if (o1.equals(o2))
-			return 1;
-		return 0;
+		if (o1.length != o2.length)
+			return 0;
+		for (int i = 0; i < o1.length; i++) {
+			if (!o1[i].equals(o2[i]))
+				return 0;
+		}
+		return 1;
 	}
 
 }
