@@ -13,7 +13,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.reflections.Reflections;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,17 +25,12 @@ import org.springframework.web.servlet.view.RedirectView;
 import de.olipar.ssmct.annotation.Param;
 import de.olipar.ssmct.annotation.ParameterDisplayType;
 import de.olipar.ssmct.comparison.TheComparator;
-import de.olipar.ssmct.storage.StorageService;
 
 @Controller
 @SessionAttributes("segments")
 public class CompareController {
 	private Reflections comparatorsReflection = new Reflections("de.olipar.ssmct.comparison");
 	private Set<Class<? extends Comparator>> comparatorClasses = comparatorsReflection.getSubTypesOf(Comparator.class);
-
-	@Autowired
-	public CompareController(StorageService storageService) {
-	}
 
 	@RequestMapping("/comparison")
 	public String compare(Model model, HttpServletRequest request,

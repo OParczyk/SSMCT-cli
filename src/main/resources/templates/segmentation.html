@@ -20,7 +20,6 @@
 				<div th:each="constructor : ${constructors}">
 					<span th:text="${constructor.getName()}"></span>
 					<input type="hidden" name="segmenter" th:value="${constructor.getName()}">
-					<input type="hidden" name="filename" th:value="${file}">
 					<div th:each="parameter : ${constructor.getParameters()}">
 						<label th:text="${parameter.getAnnotation(paramClass).name()}"></label>
 						<div th:if="${parameter.getAnnotation(paramClass).displayType()==NUMBER}">
