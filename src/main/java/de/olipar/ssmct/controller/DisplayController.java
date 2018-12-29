@@ -52,6 +52,8 @@ public class DisplayController {
 		byte[] imageBytes = baos.toByteArray();
 		baos.close();
 		IOUtils.copy(new ByteArrayInputStream(imageBytes), response.getOutputStream());
+		request.getSession().removeAttribute("inputBytes");
+		request.getSession().removeAttribute("segments");
 		request.getSession().removeAttribute("comparisonResult");
 	}
 

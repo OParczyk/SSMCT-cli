@@ -127,7 +127,7 @@ public class CompareController {
 			e.printStackTrace();
 			return new RedirectView("comparison");
 		}
-		request.getSession().removeAttribute("segments");
+
 		request.getSession().setAttribute("comparisonResult", comparisonResult);
 		return new RedirectView("display", false);
 	}

@@ -124,6 +124,8 @@ public class FileSegmentationController {
 			Segmenter<? extends Comparable<?>> segmenter = constr.newInstance(params.toArray());
 			// and segment the file
 			segments = segmenter.getSegments(inputBytes);
+			System.out.println("Original file size: " + inputBytes.length);
+			System.out.println("Image resolution will be " + segments.length);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
 			redirectAttrs.addAttribute("message", "Error parsing given Parameters");
@@ -132,7 +134,7 @@ public class FileSegmentationController {
 		}
 
 		request.getSession().setAttribute("segments", segments);
-		request.getSession().removeAttribute("inputBytes");
+
 		return new RedirectView("comparison", false);
 	}
 }
