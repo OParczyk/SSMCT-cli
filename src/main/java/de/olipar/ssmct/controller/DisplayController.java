@@ -52,6 +52,7 @@ public class DisplayController {
 		byte[] imageBytes = baos.toByteArray();
 		baos.close();
 		IOUtils.copy(new ByteArrayInputStream(imageBytes), response.getOutputStream());
+		request.getSession().removeAttribute("comparisonResult");
 	}
 
 	private static int[] getRGB(int[][] in) {

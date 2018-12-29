@@ -132,6 +132,7 @@ public class FileSegmentationController {
 		}
 
 		request.getSession().setAttribute("segments", segments);
+		request.getSession().removeAttribute("inputBytes");
 		return new RedirectView("comparison", false);
 	}
 }
