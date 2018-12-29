@@ -1,12 +1,9 @@
 package de.olipar.ssmct.controller;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -19,7 +16,6 @@ import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +26,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import de.olipar.ssmct.annotation.Param;
 import de.olipar.ssmct.annotation.ParameterDisplayType;
 import de.olipar.ssmct.comparison.TheComparator;
-import de.olipar.ssmct.segmentation.Segmenter;
 import de.olipar.ssmct.storage.StorageService;
 
 @Controller
