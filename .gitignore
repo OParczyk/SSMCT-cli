@@ -34,5 +34,8 @@ target*
 upload-dir
 .attach*
 
+#output
+output
+
 .factorypath
 
