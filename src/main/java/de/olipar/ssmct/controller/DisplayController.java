@@ -7,35 +7,32 @@ import java.awt.image.DataBufferInt;
 import java.awt.image.DirectColorModel;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
-import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.context.support.ServletContextResource;
+
+import com.metsci.glimpse.support.colormap.ColorGradients;
+import com.metsci.glimpse.support.colormap.ColorMap;
 
 @Controller
 @SessionAttributes("comparisonResult")
 public class DisplayController {
-	@Autowired
-	ServletContext context;
 
-	@RequestMapping(value = "/output/output.png", method = RequestMethod.GET)
-	public Resource getImageAsResource() {
-		return new ServletContextResource(context, "/output/output.png");
-	}
-
-	@RequestMapping(value = "/display")
-	public String createImage(HttpServletRequest request, @ModelAttribute("comparisonResult") int[][] compResult) {
+	@RequestMapping(value = "/display", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
+	public void createImage(HttpServletRequest request, @ModelAttribute("comparisonResult") int[][] compResult,
+			HttpServletResponse response) throws IOException {
 		int width = compResult.length;
 		int height = compResult.length;
 		int[] rgbs = getRGB(compResult);
@@ -49,39 +46,42 @@ public class DisplayController {
 
 		BufferedImage img = new BufferedImage(colorModel, raster, false, null);
 
-		String fname = "./output/output.png";
-		try {
-			ImageIO.write(img, "png", new File(fname));
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-		System.out.println("wrote to " + fname);
-		return ("redirect:/output/output.png");
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(img, "png", baos);
+		baos.flush();
+		byte[] imageBytes = baos.toByteArray();
+		baos.close();
+		IOUtils.copy(new ByteArrayInputStream(imageBytes), response.getOutputStream());
 	}
 
 	private static int[] getRGB(int[][] in) {
+		ColorMap cm = ColorGradients.viridis;
 		int[] ret = new int[in.length * in.length];
 		int minimum = min(in);
 		int maximum = max(in);
-		float rangeFactor = 1;
-		if ((maximum - minimum) - 0xFF < 0)
-			rangeFactor = 0xFF / (maximum - minimum);
-		else if ((maximum - minimum) - 0xFF > 0)
-			rangeFactor = (maximum - minimum) / 0xFF;
-		System.out.println(rangeFactor);
+		float[] tempColor = new float[4];
+		float range = (maximum - minimum);
+		range = Math.max(range, 1);
+
 		for (int i = 0; i < in.length; i++) {
 			for (int j = 0; j < in.length; j++) {
-				if (in[i][j] == maximum)
-					ret[i * in.length + j] = 0xFF0000;
-				else if (in[i][j] == minimum)
-					ret[i * in.length + j] = 0x000000;
-				else
-					ret[i * in.length + j] = (int) ((in[i][j] * 0x010100) * rangeFactor);
+//				if (in[i][j] == maximum)
+//					ret[i * in.length + j] = 0xFF0000;
+//				else if (in[i][j] == minimum)
+//					ret[i * in.length + j] = 0x000000;
+//				else {
+				cm.toColor((in[i][j] - minimum) / range, tempColor);
+
+				ret[i * in.length + j] = convertBack(tempColor);
+//				}
 			}
 		}
 
 		return ret;
+	}
+
+	private static int convertBack(float[] in) {
+		return (int) ((int) (in[0] * 255) * 0x010000 + (int) (in[1] * 255) * 0x000100 + in[2] * 255 * 0x000001);
 	}
 
 	private static int max(int[][] in) {
