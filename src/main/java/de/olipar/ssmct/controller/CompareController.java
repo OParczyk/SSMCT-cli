@@ -101,6 +101,9 @@ public class CompareController {
 				else
 					params.add(new Boolean(false));
 				break;
+			case BYTE:
+				params.add(new Byte(payloadContent));
+				break;
 			case INT:
 				params.add(new Integer(payloadContent));
 				break;

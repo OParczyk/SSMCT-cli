@@ -1,5 +1,5 @@
 package de.olipar.ssmct.annotation;
 
 public enum ParameterType {
-INT,LONG,STRING,BOOLEAN;
+BYTE,INT,LONG,STRING,BOOLEAN;
 }
